@@ -7,8 +7,7 @@ import android.widget.TextView;
 
 import com.smartown.demo.retrofitdemo.entity.ResponseEntity;
 import com.smartown.demo.retrofitdemo.entity.Subject;
-import com.smartown.demo.retrofitdemo.util.MovieRequestUtil;
-import com.smartown.demo.retrofitdemo.util.RequestUtil;
+import com.smartown.demo.retrofitdemo.util.MovieRequestUtils;
 
 import java.util.List;
 
@@ -97,29 +96,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getTopMovie() {
-        MovieRequestUtil util = new MovieRequestUtil();
-        util.getTopMovie(0, 1, new Subscriber<ResponseEntity<List<Subject>>>() {
-            @Override
-            public void onCompleted() {
-
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                textView.setText(e.toString());
-            }
-
-            @Override
-            public void onNext(ResponseEntity<List<Subject>> listResponseEntity) {
-                textView.setText(listResponseEntity.toString());
-            }
-
-        });
-    }
-
-    private void getTop250Movie() {
-        RequestUtil<MovieService,ResponseEntity<List<Subject>>>.getInstance().
-        util.getTopMovie(0, 1, new Subscriber<ResponseEntity<List<Subject>>>() {
+        final MovieRequestUtils utils = new MovieRequestUtils();
+        utils.getTopMovie(0, 1, new Subscriber<ResponseEntity<List<Subject>>>() {
             @Override
             public void onCompleted() {
 

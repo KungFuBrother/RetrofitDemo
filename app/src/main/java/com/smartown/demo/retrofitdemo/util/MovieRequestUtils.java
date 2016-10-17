@@ -17,12 +17,12 @@ import rx.schedulers.Schedulers;
  * <p/>
  * 描述：
  */
-public class MovieRequestUtil {
+public class MovieRequestUtils {
 
     private MovieService service;
 
-    public MovieRequestUtil() {
-        service = RequestUtil.getInstance().getRetrofit().create(MovieService.class);
+    public MovieRequestUtils() {
+        service = RequestUtils.getInstance().getRetrofit().create(MovieService.class);
     }
 
     public void getTopMovie(int start, int count, Subscriber<ResponseEntity<List<Subject>>> subscriber) {
