@@ -7,13 +7,17 @@ package com.smartown.demo.retrofitdemo.entity;
  * <p/>
  * 描述：
  */
-public class ResponseEntity<T> {
+public class HttpResponse<T> {
 
     private int count;
     private int start;
     private int total;
     private String title;
     private T subjects;
+
+    public boolean isSuccess() {
+        return true;
+    }
 
     public int getCount() {
         return count;
@@ -57,7 +61,7 @@ public class ResponseEntity<T> {
 
     @Override
     public String toString() {
-        return "ResponseEntity{" +
+        return "HttpResponse{" +
                 "count=" + count +
                 ", start=" + start +
                 ", total=" + total +

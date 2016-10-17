@@ -1,6 +1,6 @@
 package com.smartown.demo.retrofitdemo;
 
-import com.smartown.demo.retrofitdemo.entity.ResponseEntity;
+import com.smartown.demo.retrofitdemo.entity.HttpResponse;
 import com.smartown.demo.retrofitdemo.entity.Subject;
 
 import java.util.List;
@@ -20,9 +20,9 @@ import rx.Observable;
 public interface MovieService {
 
     @GET("top250")
-    Call<ResponseEntity<List<Subject>>> getTopMovie(@Query("start") int start, @Query("count") int count);
+    Call<HttpResponse<List<Subject>>> getTopMovie(@Query("start") int start, @Query("count") int count);
 
     @GET("top250")
-    Observable<ResponseEntity<List<Subject>>> getTopMovieRx(@Query("start") int start, @Query("count") int count);
+    Observable<HttpResponse<List<Subject>>> getTopMovieRx(@Query("start") int start, @Query("count") int count);
 
 }

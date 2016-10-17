@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.smartown.demo.retrofitdemo.entity.ResponseEntity;
+import com.smartown.demo.retrofitdemo.entity.HttpResponse;
 import com.smartown.demo.retrofitdemo.entity.Subject;
 import com.smartown.demo.retrofitdemo.util.MovieRequestUtils;
 
@@ -39,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                getMovie();
 //                getMovieRx();
-                getTopMovie();
+//                getTopMovie();
+                getTopMovieMap();
             }
         });
     }
@@ -51,15 +52,15 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         MovieService service = retrofit.create(MovieService.class);
-        Call<ResponseEntity<List<Subject>>> call = service.getTopMovie(0, 1);
-        call.enqueue(new Callback<ResponseEntity<List<Subject>>>() {
+        Call<HttpResponse<List<Subject>>> call = service.getTopMovie(0, 1);
+        call.enqueue(new Callback<HttpResponse<List<Subject>>>() {
             @Override
-            public void onResponse(Call<ResponseEntity<List<Subject>>> call, Response<ResponseEntity<List<Subject>>> response) {
+            public void onResponse(Call<HttpResponse<List<Subject>>> call, Response<HttpResponse<List<Subject>>> response) {
                 textView.setText(response.body().toString());
             }
 
             @Override
-            public void onFailure(Call<ResponseEntity<List<Subject>>> call, Throwable t) {
+            public void onFailure(Call<HttpResponse<List<Subject>>> call, Throwable t) {
                 textView.setText(t.toString());
             }
         });
@@ -73,11 +74,11 @@ public class MainActivity extends AppCompatActivity {
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
         MovieService service = retrofit.create(MovieService.class);
-        Observable<ResponseEntity<List<Subject>>> observable = service.getTopMovieRx(0, 1);
+        Observable<HttpResponse<List<Subject>>> observable = service.getTopMovieRx(0, 1);
         observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ResponseEntity<List<Subject>>>() {
+                .subscribe(new Subscriber<HttpResponse<List<Subject>>>() {
                     @Override
                     public void onCompleted() {
 
@@ -89,15 +90,15 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onNext(ResponseEntity<List<Subject>> listResponseEntity) {
-                        textView.setText(listResponseEntity.toString());
+                    public void onNext(HttpResponse<List<Subject>> listHttpResponse) {
+                        textView.setText(listHttpResponse.toString());
                     }
                 });
     }
 
     private void getTopMovie() {
         final MovieRequestUtils utils = new MovieRequestUtils();
-        utils.getTopMovie(0, 1, new Subscriber<ResponseEntity<List<Subject>>>() {
+        utils.getTopMovie(0, 1, new Subscriber<HttpResponse<List<Subject>>>() {
             @Override
             public void onCompleted() {
 
@@ -109,8 +110,29 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNext(ResponseEntity<List<Subject>> listResponseEntity) {
-                textView.setText(listResponseEntity.toString());
+            public void onNext(HttpResponse<List<Subject>> listHttpResponse) {
+                textView.setText(listHttpResponse.toString());
+            }
+
+        });
+    }
+
+    private void getTopMovieMap() {
+        final MovieRequestUtils utils = new MovieRequestUtils();
+        utils.getTopMovieMap(0, 1, new Subscriber<List<Subject>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                textView.setText(e.toString());
+            }
+
+            @Override
+            public void onNext(List<Subject> subjects) {
+                textView.setText(subjects.toString());
             }
 
         });
